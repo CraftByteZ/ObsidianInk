@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Net.Http.Json;
 using ObsidianInk.Dtos;
+using System.Net.Http.Json;
 
 namespace Web.Pages
 {
@@ -16,7 +16,7 @@ namespace Web.Pages
 
         public async Task OnGetAsync()
         {
-            var response = await _httpClient.GetFromJsonAsync<List<BookDto>>("api/book");
+            var response = await _httpClient.GetFromJsonAsync<List<BookDto>>("api/book/all");
             if (response != null)
                 Books = response;
         }

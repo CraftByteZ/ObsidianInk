@@ -1,43 +1,47 @@
 ﻿@{
-    var title = ViewData["Title"] ?? "Obsidian Ink Library";
+    var isLogged = User.Identity?.IsAuthenticated ?? false;
 }
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@title</title>
+    <title>@ViewData["Title"] - Obsidian Ink</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
-    <header>
-        <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" asp-page="/Index">
-                    <span style="font-size:1.5rem;">🖤</span> <strong>Obsidian Ink</strong>
-                </a>
+
+<body class="has-background-dark has-text-light">
+    <nav class="navbar is-dark" role="navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" asp-page="/Index">🖋️ Obsidian Ink</a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" asp-page="/Catalog">Catálogo</a>
+                <a class="navbar-item" asp-page="/About">Acerca</a>
             </div>
-            <div class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" asp-page="/Index">Inicio</a>
-                    <a class="navbar-item" asp-page="/Catalog">Catálogo</a>
+            <div class="navbar-end">
+                @if (isLogged)
+                {
                     <a class="navbar-item" asp-page="/Library">Mi Biblioteca</a>
-                    <a class="navbar-item" asp-page="/About">Acerca de</a>
-                    <a class="navbar-item" asp-page="/Login">Login</a>
-                </div>
+                    <form method="post" asp-page="/Logout" class="navbar-item">
+                        <button class="button is-small is-danger">Cerrar sesión</button>
+                    </form>
+                }
+                else
+                {
+                    <a class="navbar-item" asp-page="/Login">Iniciar sesión</a>
+                    <a class="navbar-item" asp-page="/Register">Registrarse</a>
+                }
             </div>
-        </nav>
-    </header>
-    <main role="main" class="section">
+        </div>
+    </nav>
+    <section class="section">
         <div class="container">
             @RenderBody()
         </div>
-    </main>
-    <footer class="footer has-background-dark has-text-light">
-        <div class="content has-text-centered">
-            <p>© @DateTime.Now.Year - Obsidian Ink</p>
-        </div>
-    </footer>
+    </section>
 </body>
+
 </html>

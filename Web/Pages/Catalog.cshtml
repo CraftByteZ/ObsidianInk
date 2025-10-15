@@ -4,29 +4,33 @@
     ViewData["Title"] = "Catálogo";
 }
 
-<section class="section">
-    <div class="container">
-        <h1 class="title is-2 has-text-centered mb-5">Catálogo de Libros</h1>
-        <div class="columns is-multiline">
-            @if (Model.Books == null || !Model.Books.Any())
-            {
-                <p>No hay libros disponibles.</p>
-            }
-            else
-            {
-                @foreach (var book in Model.Books)
-                {
-                    <div class="column is-one-quarter">
-                        <div class="card">
-                            <div class="card-content">
-                                <p class="title is-4">@book.Title</p>
-                                <p class="subtitle is-6">@book.AuthorIds</p>
-                                <a class="button is-link is-small mt-3" asp-page="/BookDetails" asp-route-id="@book.Id">Ver detalles</a>
-                            </div>
-                        </div>
+<h1 class="title has-text-centered has-text-light">Catálogo de Libros</h1>
+<div class="columns is-multiline">
+    @if (Model.Books.Count == 0)
+    {
+        <p class="has-text-grey-light">No hay libros disponibles.</p>
+    }
+    else
+    {
+        @foreach (var book in Model.Books)
+        {
+            <div class="column is-one-quarter">
+                <div class="card has-background-grey-dark">
+                    <div class="card-content">
+                        <p class="title is-5 has-text-light">@book.Title</p>
+                        <p class="subtitle is-6 has-text-grey-light">@string.Join(", ", book.AuthorNames)</p>
+                        <p class="has-text-info">$@book.Price</p>
+                        @if (User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <a class="button is-success is-small mt-2">Comprar</a>
+                        }
+                        else
+                        {
+                            <a class="button is-link is-small mt-2" asp-page="/Login">Iniciar sesión para comprar</a>
+                        }
                     </div>
-                }
-            }
-        </div>
-    </div>
-</section>
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -1,15 +1,30 @@
 ﻿@page
-@model IndexModel
+@model Web.Pages.LibraryModel
+@attribute [Authorize]
 @{
-    ViewData["Title"] = "Inicio";
+    ViewData["Title"] = "Mi Biblioteca";
 }
 
-<div class="hero is-dark is-fullheight">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title is-1 has-text-light">ObsidianInk</h1>
-            <h2 class="subtitle is-4 has-text-grey-light">Tu librería digital oscura y elegante</h2>
-            <a class="button is-primary is-large" href="/Catalog">Explorar libros</a>
-        </div>
+<h1 class="title has-text-centered has-text-light">Tu Biblioteca</h1>
+
+@if (Model.Books.Count == 0)
+{
+    <p class="has-text-grey-light">Aún no tienes libros comprados.</p>
+}
+else
+{
+    <div class="columns is-multiline">
+        @foreach (var book in Model.Books)
+        {
+            <div class="column is-one-quarter">
+                <div class="card has-background-grey-dark">
+                    <div class="card-content">
+                        <p class="title is-5 has-text-light">@book.Title</p>
+                        <p class="subtitle is-6 has-text-grey-light">@string.Join(", ", book.AuthorNames)</p>
+                        <a class="button is-link is-small mt-2" href="@book.UrlFile" target="_blank">Leer</a>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
-</div>
+}
