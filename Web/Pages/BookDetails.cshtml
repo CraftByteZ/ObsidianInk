@@ -1,0 +1,19 @@
+﻿@page "{id:int}"
+@model Web.Pages.BookDetailsModel
+@{
+    ViewData["Title"] = Model.Book?.Title ?? "Detalles del libro";
+}
+
+@if (Model.Book == null)
+{
+    <p>Libro no encontrado.</p>
+}
+else
+{
+    <div class="card">
+        <h2>@Model.Book.Title</h2>
+        <p><strong>Autor:</strong> @Model.Book.AuthorIds</p>
+        <p>@Model.Book.Description</p>
+        <a class="btn" asp-page="/Catalog">Volver</a>
+    </div>
+}

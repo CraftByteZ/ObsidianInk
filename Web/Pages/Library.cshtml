@@ -1,0 +1,22 @@
+﻿@page
+@model Web.Pages.LibraryModel
+@{
+    ViewData["Title"] = "Mi Biblioteca";
+}
+
+<h2>Mis Libros Guardados</h2>
+
+@if (!Model.Books.Any())
+{
+    <p>No has guardado libros todavía.</p>
+}
+else
+{
+    foreach (var book in Model.Books)
+    {
+        <div class="card">
+            <h3>@book.Title</h3>
+            <p>@book.AuthorIds</p>
+        </div>
+    }
+}

@@ -1,0 +1,40 @@
+﻿@page
+@model Web.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<section class="section">
+    <div class="container">
+        <div class="box" style="max-width: 400px; margin: auto;">
+            <h2 class="title is-3 has-text-centered">Crear Cuenta</h2>
+            <form method="post">
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                        <input class="input" asp-for="Input.Email" placeholder="Tu correo electrónico" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Contraseña</label>
+                    <div class="control">
+                        <input class="input" asp-for="Input.Password" type="password" placeholder="Tu contraseña" />
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary is-fullwidth" type="submit">Registrarse</button>
+                    </div>
+                </div>
+            </form>
+            <p class="has-text-centered mt-4">
+                ¿Ya tienes cuenta? <a asp-page="/Login">Inicia sesión aquí</a>
+            </p>
+        </div>
+    </div>
+</section>
+</section>    </div>        </div>            </p>                ¿Ya tienes cuenta? <a asp-page="/Login">Inicia sesión aquí</a>                ¿Ya tienes cuenta? <a asp-page="/Login">Inicia sesión aquí</a>
+            </p>
+        </div>
+    </div>
+</section>
