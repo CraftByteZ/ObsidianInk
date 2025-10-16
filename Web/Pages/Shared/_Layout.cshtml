@@ -22,7 +22,7 @@
                 <a class="navbar-item" asp-page="/About">Acerca</a>
             </div>
             <div class="navbar-end">
-                @if (isLogged)
+                @if (User.Identity.IsAuthenticated)
                 {
                     <a class="navbar-item" asp-page="/Library">Mi Biblioteca</a>
                     <form method="post" asp-page="/Logout" class="navbar-item">

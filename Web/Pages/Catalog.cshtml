@@ -19,16 +19,20 @@
                     <div class="card-content">
                         <p class="title is-5 has-text-light">@book.Title</p>
                         <p class="subtitle is-6 has-text-grey-light">@string.Join(", ", book.AuthorNames)</p>
+                        <p class="subtitle is-6 has-text-grey-light">@string.Join(", ", book.GenreNames)</p>
                         <p class="has-text-info">$@book.Price</p>
                         @if (User.Identity?.IsAuthenticated ?? false)
                         {
-                            <a class="button is-success is-small mt-2">Comprar</a>
+                            <form method="post" asp-page-handler="Buy">
+                            <input type="hidden" name="bookId" value="@book.Id" />
+                            <button type="submit" class="btn btn-primary">Comprar</button>
+                            </form>
                         }
                         else
                         {
-                            <a class="button is-link is-small mt-2" asp-page="/Login">Iniciar sesión para comprar</a>
+                            <a class="btn btn-secondary" asp-page="/Login">Inicia sesión para comprar</a>
                         }
-                    </div>
+                            </div>
                 </div>
             </div>
         }

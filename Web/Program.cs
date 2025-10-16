@@ -4,6 +4,7 @@ using ObsidianInk.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Razor Pages
 builder.Services.AddRazorPages();
 
 // Database
@@ -13,19 +14,21 @@ builder.Services.AddDbContext<ObsidianInkContext>(options =>
 // HttpClient for API
 builder.Services.AddHttpClient("api", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7144/"); // Example API base URL
+    // 👇 This must point to your Web API project base URL, NOT the database port
+    client.BaseAddress = new Uri("https://localhost:7144/");
 });
 
-// Simple cookie auth for demo
+// ✅ Enable Cookie Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Login";
+        options.LoginPath = "/Index"; // redirect when not logged in
         options.AccessDeniedPath = "/Login";
     });
 
 var app = builder.Build();
 
+// Middleware order is important!
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -34,8 +37,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 
+// Authentication before Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 

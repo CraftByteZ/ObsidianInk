@@ -1,25 +1,37 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ObsidianInk.Dtos;
 using System.Net.Http.Json;
+using System.Security.Claims;
 
 namespace Web.Pages
 {
+    [Authorize]
     public class LibraryModel : PageModel
     {
-        private readonly HttpClient _httpClient;
-        public List<BookDto> Books { get; set; } = new();
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public LibraryModel(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient("api");
+            _httpClientFactory = httpClientFactory;
         }
+
+        public List<BookDto> MyBooks { get; set; } = new();
 
         public async Task OnGetAsync()
         {
-            // Puedes cambiar el endpoint cuando tengas autenticaci�n
-            var response = await _httpClient.GetFromJsonAsync<List<BookDto>>("api/book");
-            if (response != null)
-                Books = response.Take(3).ToList(); // ejemplo: solo mostrar algunos libros
+            var client = _httpClientFactory.CreateClient("api");
+            var userId = int.Parse(User.FindFirst("UserId")!.Value);
+
+            // 1️⃣ Get user orders
+            var orders = await client.GetFromJsonAsync<List<OrderDto>>($"api/Order/user/{userId}");
+            if (orders == null || !orders.Any()) return;
+
+            // 2️⃣ Get all books
+            var books = await client.GetFromJsonAsync<List<BookDto>>("api/Book/all");
+
+            // 3️⃣ Filter by purchased
+            MyBooks = books?.Where(b => orders.Any(o => o.BookId == b.Id)).ToList() ?? new();
         }
     }
 }

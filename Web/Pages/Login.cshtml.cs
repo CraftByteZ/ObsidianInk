@@ -7,27 +7,25 @@ namespace Web.Pages
 {
     public class LoginModel : PageModel
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public LoginModel(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient("api");
+            _httpClientFactory = httpClientFactory;
         }
 
         [BindProperty]
-        public LoginDto Input { get; set; } = new();
+        public LoginDto Login { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-                return Page();
-
-            var response = await _httpClient.PostAsJsonAsync("api/user/login", Input);
+            var client = _httpClientFactory.CreateClient("api");
+            var response = await client.PostAsJsonAsync("api/Auth/login", Login);
 
             if (response.IsSuccessStatusCode)
                 return RedirectToPage("/Catalog");
 
-            ModelState.AddModelError(string.Empty, "Credenciales inv·lidas");
+            ModelState.AddModelError("", "Credenciales inv√°lidas");
             return Page();
         }
     }

@@ -57,3 +57,36 @@ footer {
         transform: translateY(-5px);
         box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
     }
+.catalog-grid, .library-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 20px;
+}
+
+.book-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.book-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    background-color: #007bff;
+}
+
+.btn-secondary { background-color: gray; }
+.btn-success { background-color: green; }

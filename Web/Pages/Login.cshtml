@@ -12,13 +12,13 @@
                 <div class="field">
                     <label class="label">Email</label>
                     <div class="control">
-                        <input class="input" asp-for="Input.Email" placeholder="Tu correo electrónico" />
+                        <input class="input" asp-for="Login.Email" placeholder="Tu correo electrónico" />
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">Contraseña</label>
                     <div class="control">
-                        <input class="input" asp-for="Input.Password" type="password" placeholder="Tu contraseña" />
+                        <input class="input" asp-for="Login.Password" type="password" placeholder="Tu contraseña" />
                     </div>
                 </div>
                 <div class="field">
@@ -29,6 +29,7 @@
             </form>
             <p class="has-text-centered mt-4">
                 ¿No tienes cuenta? <a asp-page="/Register">Regístrate aquí</a>
+                <br>
             </p>
         </div>
     </div>

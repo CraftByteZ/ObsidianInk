@@ -1,21 +1,20 @@
 ﻿@page
-@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.RazorPages;
 @model Web.Pages.LibraryModel
-@attribute [Authorize]
 @{
     ViewData["Title"] = "Mi Biblioteca";
 }
 
 <h1 class="title has-text-centered has-text-light">Tu Biblioteca</h1>
 
-@if (Model.Books.Count == 0)
+@if (Model. MyBooks.Count == 0)
 {
     <p class="has-text-grey-light">Aún no tienes libros comprados.</p>
 }
 else
 {
     <div class="columns is-multiline">
-        @foreach (var book in Model.Books)
+        @foreach (var book in Model.MyBooks)
         {
             <div class="column is-one-quarter">
                 <div class="card has-background-grey-dark">

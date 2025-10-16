@@ -7,27 +7,25 @@ namespace Web.Pages
 {
     public class RegisterModel : PageModel
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public RegisterModel(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient("api");
+            _httpClientFactory = httpClientFactory;
         }
 
         [BindProperty]
-        public UserDto Input { get; set; } = new();
+        public UserDto User { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-                return Page();
-
-            var response = await _httpClient.PostAsJsonAsync("api/user", Input);
+            var client = _httpClientFactory.CreateClient("api");
+            var response = await client.PostAsJsonAsync("api/Auth/register", User);
 
             if (response.IsSuccessStatusCode)
                 return RedirectToPage("/Login");
 
-            ModelState.AddModelError(string.Empty, "Error al registrar usuario");
+            ModelState.AddModelError("", "Error al registrarse");
             return Page();
         }
     }
