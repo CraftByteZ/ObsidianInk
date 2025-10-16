@@ -1,30 +1,39 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.RazorPages;
-@model Web.Pages.LibraryModel
+@model Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Mi Biblioteca";
+    ViewData["Title"] = "Obsidian Ink";
 }
 
-<h1 class="title has-text-centered has-text-light">Tu Biblioteca</h1>
-
-@if (Model. MyBooks.Count == 0)
-{
-    <p class="has-text-grey-light">Aún no tienes libros comprados.</p>
-}
-else
-{
-    <div class="columns is-multiline">
-        @foreach (var book in Model.MyBooks)
-        {
-            <div class="column is-one-quarter">
-                <div class="card has-background-grey-dark">
-                    <div class="card-content">
-                        <p class="title is-5 has-text-light">@book.Title</p>
-                        <p class="subtitle is-6 has-text-grey-light">@string.Join(", ", book.AuthorNames)</p>
-                        <a class="button is-link is-small mt-2" href="@book.UrlFile" target="_blank">Leer</a>
-                    </div>
-                </div>
+<section class="section">
+    <div class="container">
+        <div class="box has-background-dark">
+            <h1 class="title is-1 has-text-centered has-text-light">🖋️ Obsidian Ink</h1>
+            <h2 class="subtitle is-4 has-text-centered has-text-grey-light">Tu librería digital oscura y elegante</h2>
+            <div class="has-text-centered mt-5">
+                <a class="button is-primary is-large" asp-page="/Catalog">Explorar libros</a>
+                <a class="button is-link is-large ml-3" asp-page="/Login">Iniciar sesión</a>
             </div>
-        }
+        </div>
     </div>
-}
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="columns is-vcentered">
+            <div class="column is-half">
+                <figure class="image is-4by3">
+                    <img src="/images/reading_dark.jpg" alt="Lectura en modo oscuro">
+                </figure>
+            </div>
+            <div class="column is-half">
+                <h2 class="title is-2">¿Por qué elegir Obsidian Ink?</h2>
+                <ul class="content">
+                    <li>📚 Amplia selección de libros en diversos géneros.</li>
+                    <li>🌙 Modo oscuro para una experiencia de lectura cómoda.</li>
+                    <li>🔒 Seguridad y privacidad de tus datos.</li>
+                    <li>💡 Recomendaciones personalizadas basadas en tus gustos.</li>
+                    <li>📱 Acceso desde cualquier dispositivo, en cualquier momento.</li
+                    </ul
+            </div>
+        </section> 
+

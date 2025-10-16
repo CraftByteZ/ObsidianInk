@@ -15,7 +15,7 @@ namespace Web.Pages
         }
 
         [BindProperty]
-        public UserDto User { get; set; }
+        public UserDto User { get; set; } = new UserDto();
 
         public async Task<IActionResult> OnPostAsync()
         {

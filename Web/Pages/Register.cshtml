@@ -4,44 +4,32 @@
     ViewData["Title"] = "Registro";
 }
 
-<div class="box has-background-dark has-text-light" style="max-width:400px;margin:auto;">
-    <h1 class="title has-text-centered has-text-light">Registro</h1>
-
-    <form method="post">
-        <div class="field">
-            <label class="label has-text-light">Nombre de usuario</label>
-            <div class="control">
-                <input asp-for="User.Username" class="input" required />
-            </div>
+<section class="section">
+    <div class="container">
+        <div class="form-card">
+            <h2 class="title is-3 has-text-centered">Crear Cuenta</h2>
+            <form method="post">
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                        <input class="input" asp-for="User.Email" placeholder="Tu correo electrónico" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Contraseña</label>
+                    <div class="control">
+                        <input class="input" asp-for="User.Password" type="password" placeholder="Tu contraseña" />
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary is-fullwidth" type="submit">Registrarse</button>
+                    </div>
+                </div>
+            </form>
+            <p class="has-text-centered mt-4">
+                ¿Ya tienes cuenta? <a asp-page="/Login">Inicia sesión aquí</a>
+            </p>
         </div>
-
-        <div class="field">
-            <label class="label has-text-light">Correo electrónico</label>
-            <div class="control">
-                <input asp-for="User.Email" class="input" type="email" required />
-            </div>
-        </div>
-
-        <div class="field">
-            <label class="label has-text-light">Contraseña</label>
-            <div class="control">
-                <input asp-for="User.Password" class="input" type="password" required />
-            </div>
-        </div>
-
-        @* @if (Model.Message != null)
-        {
-            <p class="has-text-info">@Model.Message</p>
-        } *@
-
-        <div class="field is-grouped is-grouped-centered mt-4">
-            <div class="control">
-                <button type="submit" class="button is-link">Registrarse</button>
-            </div>
-        </div>
-    </form>
-
-    <p class="has-text-centered mt-3">
-        ¿Ya tienes cuenta? <a asp-page="/Login">Inicia sesión</a>
-    </p>
-</div>
+    </div>
+</section>

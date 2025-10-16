@@ -16,11 +16,11 @@
         {
             <div class="column is-one-quarter">
                 <div class="card has-background-grey-dark">
-                    <div class="card-content">
-                        <p class="title is-5 has-text-light">@book.Title</p>
-                        <p class="subtitle is-6 has-text-grey-light">@string.Join(", ", book.AuthorNames)</p>
-                        <p class="subtitle is-6 has-text-grey-light">@string.Join(", ", book.GenreNames)</p>
-                        <p class="has-text-info">$@book.Price</p>
+                    <div class="book-card">
+                        <p class="book-title">@book.Title</p>
+                        <p class="book-detail">@string.Join(", ", book.AuthorNames)</p>
+                        <p class="book-detail">@string.Join(", ", book.GenreNames)</p>
+                        <p class="book-detail">$@book.Price</p>
                         @if (User.Identity?.IsAuthenticated ?? false)
                         {
                             <form method="post" asp-page-handler="Buy">

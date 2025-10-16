@@ -12,6 +12,7 @@ namespace Web.Pages
         public LoginModel(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
+            Login = new LoginDto();
         }
 
         [BindProperty]
