@@ -1,9 +1,12 @@
-﻿namespace ObsidianInk.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ObsidianInk.Dtos
 {
     public class GenreDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-    }
 
+        [Required, StringLength(150, MinimumLength = 2)]
+        public string Name { get; set; } = string.Empty;
+    }
 }

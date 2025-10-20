@@ -1,9 +1,13 @@
-﻿namespace ObsidianInk.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ObsidianInk.Dtos
 {
     public class LoginDto
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+        [Required, EmailAddress]
+        public string Email { get; set; } = string.Empty;
 
+        [Required, StringLength(100, MinimumLength = 6)]
+        public string Password { get; set; } = string.Empty;
+    }
 }
