@@ -9,8 +9,8 @@
         public string Phone { get; set; }
         public string Role { get; set; } = "user";
 
-        public List<Order> Orders { get; set; }
-        public List<Review> Reviews { get; set; }
+        public List<Order> Orders { get; set; } = new();
+        public List<Review> Reviews { get; set; } = new();
     }
 
 }

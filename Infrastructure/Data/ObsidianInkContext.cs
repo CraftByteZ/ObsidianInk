@@ -8,25 +8,15 @@ public class ObsidianInkContext : DbContext
     public ObsidianInkContext(DbContextOptions<ObsidianInkContext> options)
         : base(options) { }
 
-    public DbSet<Book> Books { get; set; }
-    public DbSet<Author> Authors { get; set; }
-    public DbSet<Genre> Genres { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<Order> Orders { get; set; }
-    public DbSet<Review> Reviews { get; set; }
+    public DbSet<Book> Books { get; set; } = null!;
+    public DbSet<Author> Authors { get; set; } = null!;
+    public DbSet<Genre> Genres { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; } = null!;
+    public DbSet<Review> Reviews { get; set; } = null!;
+    public DbSet<BookAuthor> BookAuthors { get; set; } = null!;
+    public DbSet<BookGenre> BookGenres { get; set; } = null!;
 
-    public DbSet<BookAuthor> BookAuthors { get; set; }
-    public DbSet<BookGenre> BookGenres { get; set; }
-
-        //// 🔹 Solo si EF no puede inyectar las opciones, agrega OnConfiguring
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        // Asegúrate de usar tu cadena de conexión real
-        //        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;username=postgres;password=*_*;database=ObsidianInkContext");
-        //    }
-        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

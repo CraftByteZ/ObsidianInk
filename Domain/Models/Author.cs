@@ -9,6 +9,6 @@ namespace ObsidianInk.Models
 
         [Required]
         public string Name { get; set; }
-        public List<BookAuthor> BookAuthors { get; set; }
+        public List<BookAuthor> BookAuthors { get; set; } = new();
     }
 }
