@@ -12,7 +12,7 @@ using ObsidianInk.Data;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ObsidianInkContext))]
-    [Migration("20251014042330_InitialCreate")]
+    [Migration("20251017203544_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

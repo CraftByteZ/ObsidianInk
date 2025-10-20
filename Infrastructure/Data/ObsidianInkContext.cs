@@ -18,15 +18,15 @@ public class ObsidianInkContext : DbContext
     public DbSet<BookAuthor> BookAuthors { get; set; }
     public DbSet<BookGenre> BookGenres { get; set; }
 
-        // 🔹 Solo si EF no puede inyectar las opciones, agrega OnConfiguring
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                // Asegúrate de usar tu cadena de conexión real
-                optionsBuilder.UseNpgsql("Host=localhost;Database=ObsidianInk;Username=postgres;Password=1234");
-            }
-        }
+        //// 🔹 Solo si EF no puede inyectar las opciones, agrega OnConfiguring
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        // Asegúrate de usar tu cadena de conexión real
+        //        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;username=postgres;password=*_*;database=ObsidianInkContext");
+        //    }
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
