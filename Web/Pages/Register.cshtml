@@ -1,35 +1,57 @@
 ﻿@page
 @model Web.Pages.RegisterModel
 @{
-    ViewData["Title"] = "Registro";
+    ViewData["Title"] = "Registrarse";
 }
 
-<section class="section">
-    <div class="container">
-        <div class="form-card">
-            <h2 class="title is-3 has-text-centered">Crear Cuenta</h2>
-            <form method="post">
-                <div class="field">
-                    <label class="label">Email</label>
-                    <div class="control">
-                        <input class="input" asp-for="User.Email" placeholder="Tu correo electrónico" />
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Contraseña</label>
-                    <div class="control">
-                        <input class="input" asp-for="User.Password" type="password" placeholder="Tu contraseña" />
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="control">
-                        <button class="button is-primary is-fullwidth" type="submit">Registrarse</button>
-                    </div>
-                </div>
-            </form>
-            <p class="has-text-centered mt-4">
-                ¿Ya tienes cuenta? <a asp-page="/Login">Inicia sesión aquí</a>
-            </p>
-        </div>
+<div class="d-flex justify-content-center">
+    <div class="card bg-dark text-light shadow p-4" style="max-width: 400px;">
+        <h2 class="text-center mb-4 text-primary">Registrarse</h2>
+
+        @if (!string.IsNullOrEmpty(Model.AlertMessage))
+        {
+            <div class="alert alert-@Model.AlertType" role="alert">
+                @Model.AlertMessage
+            </div>
+        }
+
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label class="form-label">Nombre de usuario</label>
+                <input asp-for="User.Username" class="form-control" placeholder="NombreDeUsuario" />
+                <span asp-validation-for="User.Username" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Correo electrónico</label>
+                <input asp-for="User.Email" class="form-control" placeholder="usuario@email.com" />
+                <span asp-validation-for="User.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Celular</label>
+                <input asp-for="User.Phone" class="form-control" placeholder="XXX-XXX-XXXX" />
+                <span asp-validation-for="User.Phone" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input asp-for="User.Password" type="password" class="form-control" placeholder="••••••••" />
+                <span asp-validation-for="User.Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+        </form>
+
+        <p class="text-center mt-3">
+            ¿Ya tienes cuenta?
+            <a asp-page="/Login" class="text-decoration-none text-info">Loguéate aquí</a>
+        </p>
     </div>
-</section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,39 +1,32 @@
 ﻿@page
 @model Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Obsidian Ink";
+    ViewData["Title"] = "Inicio";
 }
 
-<section class="section">
-    <div class="container">
-        <div class="box has-background-dark">
-            <h1 class="title is-1 has-text-centered has-text-light">🖋️ Obsidian Ink</h1>
-            <h2 class="subtitle is-4 has-text-centered has-text-grey-light">Tu librería digital oscura y elegante</h2>
-            <div class="has-text-centered mt-5">
-                <a class="button is-primary is-large" asp-page="/Catalog">Explorar libros</a>
-                <a class="button is-link is-large ml-3" asp-page="/Login">Iniciar sesión</a>
-            </div>
-        </div>
+<section class="text-center py-5 bg-dark text-light rounded shadow-sm">
+    <h1 class="display-4 fw-bold">Obsidian Ink</h1>
+    <p class="lead text-secondary">Tu librería digital oscura y elegante</p>
+    <div class="mt-4">
+        <a asp-page="/Catalog" class="btn btn-primary btn-lg me-3">Explorar libros</a>
+        <a asp-page="/Login" class="btn btn-primary btn-lg me-3">Iniciar sesión</a>
     </div>
 </section>
 
-<section class="section">
-    <div class="container">
-        <div class="columns is-vcentered">
-            <div class="column is-half">
-                <figure class="image is-4by3">
-                    <img src="/images/reading_dark.jpg" alt="Lectura en modo oscuro">
-                </figure>
-            </div>
-            <div class="column is-half">
-                <h2 class="title is-2">¿Por qué elegir Obsidian Ink?</h2>
-                <ul class="content">
-                    <li>📚 Amplia selección de libros en diversos géneros.</li>
-                    <li>🌙 Modo oscuro para una experiencia de lectura cómoda.</li>
-                    <li>🔒 Seguridad y privacidad de tus datos.</li>
-                    <li>💡 Recomendaciones personalizadas basadas en tus gustos.</li>
-                    <li>📱 Acceso desde cualquier dispositivo, en cualquier momento.</li
-                    </ul
-            </div>
-        </section> 
-
+<section class="mt-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 mb-4">
+            <img src="/images/reading_dark.jpg" class="img-fluid rounded shadow" alt="Lectura en modo oscuro">
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-primary mb-3">¿Por qué elegir Obsidian Ink?</h2>
+            <ul class="list-group list-group-flush bg-transparent">
+                <li class="list-group-item bg-transparent">📚 Amplia selección de libros</li>
+                <li class="list-group-item bg-transparent">🌙 Modo oscuro cómodo</li>
+                <li class="list-group-item bg-transparent">🔒 Seguridad y privacidad</li>
+                <li class="list-group-item bg-transparent">💡 Recomendaciones personalizadas</li>
+                <li class="list-group-item bg-transparent">📱 Accesible en cualquier dispositivo</li>
+            </ul>
+        </div>
+    </div>
+</section>

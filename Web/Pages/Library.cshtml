@@ -4,23 +4,29 @@
     ViewData["Title"] = "Mi Biblioteca";
 }
 
-<h2>Mi Biblioteca</h2>
+<h2 class="text-primary mb-4">Mi Biblioteca</h2>
 
 @if (Model.MyBooks == null || !Model.MyBooks.Any())
 {
-    <p>No has comprado ningún libro aún.</p>
+    <p class="text-muted">No has comprado ningún libro aún.</p>
 }
 else
 {
-    <div class="library-grid">
+    <div class="row g-4">
         @foreach (var book in Model.MyBooks)
         {
-            <div class="book-card">
-                <img src="@book.Cover" alt="@book.Title" />
-                <h3>@book.Title</h3>
-                <p>@book.Description</p>
-                <p><strong>Autores:</strong> @string.Join(", ", book.AuthorNames)</p>
-                <a href="@book.UrlFile" target="_blank" class="btn btn-success">Leer libro</a>
+            <div class="col-md-3">
+                <div class="card bg-dark text-light shadow-sm h-100">
+                    <img src="@book.Cover" class="card-img-top" alt="@book.Title">
+                    <div class="card-body">
+                        <h5 class="text-primary">@book.Title</h5>
+                        <p>@book.Description</p>
+                        <small class="text-muted">Autores: @string.Join(", ", book.AuthorNames)</small>
+                        <div class="mt-3">
+                            <a href="@book.UrlFile" target="_blank" class="btn btn-success w-100">Leer libro</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         }
     </div>

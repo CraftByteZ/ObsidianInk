@@ -4,37 +4,40 @@
     ViewData["Title"] = "Catálogo";
 }
 
-<h1 class="title has-text-centered has-text-light">Catálogo de Libros</h1>
-<div class="columns is-multiline">
-    @if (Model.Books.Count == 0)
-    {
-        <p class="has-text-grey-light">No hay libros disponibles.</p>
-    }
-    else
-    {
+<h1 class="text-center text-primary mb-5">Catálogo de Libros</h1>
+
+@if (Model.Books.Count == 0)
+{
+    <p class="text-center text-muted">No hay libros disponibles.</p>
+}
+else
+{
+    <div class="row g-4">
         @foreach (var book in Model.Books)
         {
-            <div class="column is-one-quarter">
-                <div class="card has-background-grey-dark">
-                    <div class="book-card">
-                        <p class="book-title">@book.Title</p>
-                        <p class="book-detail">@string.Join(", ", book.AuthorNames)</p>
-                        <p class="book-detail">@string.Join(", ", book.GenreNames)</p>
-                        <p class="book-detail">$@book.Price</p>
+            <div class="col-md-3">
+                <div class="card bg-dark text-light border-0 shadow-sm h-100">
+                    <img src="@book.Cover" class="card-img-top rounded" alt="@book.Title">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">@book.Title</h5>
+                        <p class="card-text">@string.Join(", ", book.AuthorNames)</p>
+                        <p class="text-muted">@string.Join(", ", book.GenreNames)</p>
+                        <p class="fw-bold">$@book.Price</p>
+
                         @if (User.Identity?.IsAuthenticated ?? false)
                         {
                             <form method="post" asp-page-handler="Buy">
-                            <input type="hidden" name="bookId" value="@book.Id" />
-                            <button type="submit" class="btn btn-primary">Comprar</button>
+                                <input type="hidden" name="bookId" value="@book.Id" />
+                                <button type="submit" class="btn btn-outline-primary w-100">Comprar</button>
                             </form>
                         }
                         else
                         {
-                            <a class="btn btn-secondary" asp-page="/Login">Inicia sesión para comprar</a>
+                            <a asp-page="/Login" class="btn btn-outline-light w-100">Inicia sesión para comprar</a>
                         }
-                            </div>
+                    </div>
                 </div>
             </div>
         }
-    }
-</div>
+    </div>
+}
