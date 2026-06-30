@@ -43,13 +43,8 @@ namespace ObsidianInk.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            try
-            {
-                var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
-
-                if (user != null)
-                    return Ok(user);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
 
                 return Unauthorized("Invalid credentials.");
             }
@@ -58,6 +53,14 @@ namespace ObsidianInk.Controllers
                 return Problem($"Unable to authenticate user because the database operation failed: {ex.Message}");
             }
         }
+
+        private static AuthResponseDto ToAuthResponseDto(User user) => new()
+        {
+            UserId = user.Id,
+            Username = user.Username,
+            Email = user.Email,
+            Role = user.Role ?? "user"
+        };
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)

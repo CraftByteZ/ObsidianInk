@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ObsidianInk.Dtos;
-using ObsidianInk.Models;
 using System.Net.Http.Json;
 using System.Security.Claims;
 
@@ -33,7 +32,7 @@ namespace Web.Pages
                 return Page();
             }
 
-            var user = await response.Content.ReadFromJsonAsync<User>();
+            var user = await response.Content.ReadFromJsonAsync<AuthResponseDto>();
 
             if (user == null)
             {
@@ -45,8 +44,8 @@ namespace Web.Pages
             {
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim("UserId", user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role ?? "user")
+                new Claim("UserId", user.UserId.ToString()),
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var identity = new ClaimsIdentity(
