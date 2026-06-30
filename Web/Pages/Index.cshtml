@@ -1,32 +1,50 @@
-﻿@page
+@page
 @model Web.Pages.IndexModel
 @{
     ViewData["Title"] = "Inicio";
 }
 
-<section class="text-center py-5 bg-dark text-light rounded shadow-sm">
-    <h1 class="display-4 fw-bold">Obsidian Ink</h1>
-    <p class="lead text-secondary">Tu librería digital oscura y elegante</p>
-    <div class="mt-4">
-        <a asp-page="/Catalog" class="btn btn-primary btn-lg me-3">Explorar libros</a>
-        <a asp-page="/Login" class="btn btn-primary btn-lg me-3">Iniciar sesión</a>
+<section class="hero-panel rounded shadow-sm overflow-hidden">
+    <div class="row align-items-center g-0">
+        <div class="col-lg-7 p-5">
+            <span class="badge rounded-pill text-bg-primary mb-3">Demo interview-ready</span>
+            <h1 class="display-4 fw-bold mb-3">Obsidian Ink</h1>
+            <p class="lead text-light-50 mb-4">Una librería digital con catálogo, autenticación por cookie, compras de demostración y biblioteca personal.</p>
+            <div class="d-flex flex-wrap gap-3">
+                <a asp-page="/Catalog" class="btn btn-primary btn-lg">Explorar catálogo</a>
+                <a asp-page="/Login" class="btn btn-outline-light btn-lg">Probar demo</a>
+            </div>
+        </div>
+        <div class="col-lg-5 p-5 bg-black bg-opacity-25">
+            <div class="demo-card">
+                <h2 class="h4 text-primary">Credenciales de demo</h2>
+                <p class="mb-2"><strong>Email:</strong> demo@obsidianink.local</p>
+                <p class="mb-0"><strong>Contraseña:</strong> password123</p>
+                <small class="text-muted d-block mt-3">Pensado para presentar el flujo completo sin preparar datos manualmente.</small>
+            </div>
+        </div>
     </div>
 </section>
 
 <section class="mt-5">
-    <div class="row align-items-center">
-        <div class="col-md-6 mb-4">
-            <img src="/images/reading_dark.jpg" class="img-fluid rounded shadow" alt="Lectura en modo oscuro">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="content-section h-100">
+                <h2 class="h4">📚 Catálogo curado</h2>
+                <p>Consulta portadas, autores, géneros, precios y detalles de cada libro desde una interfaz clara.</p>
+            </div>
         </div>
-        <div class="col-md-6">
-            <h2 class="text-primary mb-3">¿Por qué elegir Obsidian Ink?</h2>
-            <ul class="list-group list-group-flush bg-transparent">
-                <li class="list-group-item bg-transparent">📚 Amplia selección de libros</li>
-                <li class="list-group-item bg-transparent">🌙 Modo oscuro cómodo</li>
-                <li class="list-group-item bg-transparent">🔒 Seguridad y privacidad</li>
-                <li class="list-group-item bg-transparent">💡 Recomendaciones personalizadas</li>
-                <li class="list-group-item bg-transparent">📱 Accesible en cualquier dispositivo</li>
-            </ul>
+        <div class="col-md-4">
+            <div class="content-section h-100">
+                <h2 class="h4">🛒 Compra demo</h2>
+                <p>El flujo de compra crea órdenes de demostración y redirige a la biblioteca personal.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="content-section h-100">
+                <h2 class="h4">🎤 Fácil de presentar</h2>
+                <p>La página inicial destaca el propósito del proyecto y el usuario demo para entrevistas.</p>
+            </div>
         </div>
     </div>
 </section>

@@ -158,3 +158,45 @@ footer {
     white-space: nowrap;
     line-height: 60px;
 }
+/* Demo polish */
+.hero-panel {
+    background: radial-gradient(circle at top left, rgba(109, 22, 136, 0.45), transparent 36%), linear-gradient(135deg, #151018 0%, #080808 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.text-light-50 {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.demo-card {
+    background: rgba(10, 10, 10, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.catalog-cover {
+    height: 310px;
+    object-fit: cover;
+    background: #111;
+}
+
+.book-card-compact .card-body {
+    min-height: 290px;
+}
+
+.book-detail-cover {
+    width: 100%;
+    max-height: 460px;
+    object-fit: cover;
+    background: #111;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #8f8f8f;
+}
+
+.btn-outline-light:hover,
+.btn-outline-danger:hover {
+    color: #0a0a0a;
+}
