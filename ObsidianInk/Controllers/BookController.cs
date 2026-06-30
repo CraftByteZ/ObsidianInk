@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ObsidianInk.Data;
 using ObsidianInk.Dtos;
 using ObsidianInk.Models;
-using ObsidianInk.Services;
 
 namespace ObsidianInk.Controllers
 {
@@ -28,16 +27,14 @@ namespace ObsidianInk.Controllers
                     .Include(b => b.BookGenres).ThenInclude(bg => bg.Genre)
                     .FirstOrDefaultAsync(b => b.Id == id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var demoBook = DemoData.Books.FirstOrDefault(b => b.Id == id);
-                return demoBook == null ? NotFound() : Ok(demoBook);
+                return Problem($"Unable to retrieve book {id} from the database: {ex.Message}");
             }
 
             if (book == null)
             {
-                var demoBook = DemoData.Books.FirstOrDefault(b => b.Id == id);
-                return demoBook == null ? NotFound() : Ok(demoBook);
+                return NotFound();
             }
 
             var dto = new BookDto
@@ -83,11 +80,11 @@ namespace ObsidianInk.Controllers
                     })
                     .ToListAsync();
 
-                return Ok(books.Any() ? books : DemoData.Books);
+                return Ok(books);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Ok(DemoData.Books);
+                return Problem($"Unable to retrieve books from the database: {ex.Message}");
             }
         }
 
@@ -111,9 +108,17 @@ namespace ObsidianInk.Controllers
                 BookGenres = dto.GenreIds.Select(id => new BookGenre { GenreId = id }).ToList()
             };
 
-            _context.Books.Add(book);
-            await _context.SaveChangesAsync();
-            return Ok(book.Id);        
+            try
+            {
+                _context.Books.Add(book);
+                await _context.SaveChangesAsync();
             }
+            catch (Exception ex)
+            {
+                return Problem($"Unable to create book because the database operation failed: {ex.Message}");
+            }
+
+            return Ok(book.Id);
         }
     }
+}

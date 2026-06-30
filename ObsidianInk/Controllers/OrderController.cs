@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ObsidianInk.Data;
 using ObsidianInk.Dtos;
 using ObsidianInk.Models;
-using ObsidianInk.Services;
 
 namespace ObsidianInk.Controllers
 {
@@ -34,9 +33,9 @@ namespace ObsidianInk.Controllers
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Keep the local demo flow moving when PostgreSQL is not available.
+                return Problem($"Unable to create order because the database operation failed: {ex.Message}");
             }
 
             return Ok();
@@ -60,11 +59,11 @@ namespace ObsidianInk.Controllers
                     })
                     .ToListAsync();
 
-                return Ok(orders.Any() ? orders : DemoData.OrdersForUser(userId));
+                return Ok(orders);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Ok(DemoData.OrdersForUser(userId));
+                return Problem($"Unable to retrieve orders for user {userId} from the database: {ex.Message}");
             }
         }
     }
