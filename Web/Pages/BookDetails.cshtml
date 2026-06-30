@@ -1,4 +1,4 @@
-﻿@page "{id:int}"
+@page "{id:int}"
 @model Web.Pages.BookDetailsModel
 @{
     ViewData["Title"] = Model.Book?.Title ?? "Detalles del libro";
@@ -6,14 +6,51 @@
 
 @if (Model.Book == null)
 {
-    <p>Libro no encontrado.</p>
+    <section class="content-section text-center">
+        <h1 class="text-primary">Libro no encontrado</h1>
+        <p class="text-muted">El libro solicitado no existe o no está disponible en este momento.</p>
+        <a class="btn btn-primary" asp-page="/Catalog">Volver al catálogo</a>
+    </section>
 }
 else
 {
-    <div class="card">
-        <h2>@Model.Book.Title</h2>
-        <p><strong>Autor:</strong> @Model.Book.AuthorIds</p>
-        <p>@Model.Book.Description</p>
-        <a class="btn" asp-page="/Catalog">Volver</a>
-    </div>
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="/Catalog" class="text-light">Catálogo</a></li>
+            <li class="breadcrumb-item active text-muted" aria-current="page">@Model.Book.Title</li>
+        </ol>
+    </nav>
+
+    <section class="content-section">
+        <div class="row g-4 align-items-start">
+            <div class="col-md-4 col-lg-3">
+                <img src="@Model.Book.Cover" class="img-fluid rounded shadow book-detail-cover" alt="Portada de @Model.Book.Title">
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <span class="badge rounded-pill text-bg-primary mb-3">@string.Join(", ", Model.Book.GenreNames)</span>
+                <h1 class="text-primary mb-3">@Model.Book.Title</h1>
+                <p class="lead">@Model.Book.Description</p>
+
+                <dl class="row mt-4">
+                    <dt class="col-sm-3">Autores</dt>
+                    <dd class="col-sm-9">@string.Join(", ", Model.Book.AuthorNames)</dd>
+
+                    <dt class="col-sm-3">Precio</dt>
+                    <dd class="col-sm-9 fw-bold">@Model.Book.Price.ToString("C")</dd>
+                </dl>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a class="btn btn-outline-light" asp-page="/Catalog">Volver al catálogo</a>
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <a class="btn btn-primary" asp-page="/Catalog">Comprar desde catálogo</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-page="/Login">Iniciar sesión para comprar</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
 }

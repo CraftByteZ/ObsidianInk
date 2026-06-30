@@ -1,0 +1,14 @@
+@page
+@model Web.Pages.LogoutModel
+@{
+    ViewData["Title"] = "Cerrar sesión";
+}
+
+<section class="content-section text-center mx-auto" style="max-width: 640px;">
+    <h1 class="text-primary mb-3">Cerrar sesión</h1>
+    <p class="text-muted mb-4">Usa el botón para finalizar tu sesión de demostración de forma segura.</p>
+    <form method="post">
+        <button type="submit" class="btn btn-outline-danger">Cerrar sesión</button>
+        <a asp-page="/Index" class="btn btn-outline-light ms-2">Cancelar</a>
+    </form>
+</section>
