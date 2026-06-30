@@ -1,24 +1,18 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-using ObsidianInk.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Razor Pages
 builder.Services.AddRazorPages();
 
-// Database
-builder.Services.AddDbContext<ObsidianInkContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ObsidianInkContext")));
-
 // HttpClient for API
 builder.Services.AddHttpClient("api", client =>
 {
-    // 👇 This must point to your Web API project base URL, NOT the database port
+    // Web API project base URL
     client.BaseAddress = new Uri("https://localhost:7144/");
 });
 
-// ✅ Enable Cookie Authentication
+// Enable Cookie Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -28,7 +22,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
-// Middleware order is important!
+// Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");

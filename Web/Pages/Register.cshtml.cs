@@ -31,7 +31,7 @@ namespace Web.Pages
             }
 
             var client = _httpClientFactory.CreateClient("api");
-            var response = await client.PostAsJsonAsync("api/Auth/register", User);
+            var response = await client.PostAsJsonAsync("api/User/register", User);
 
             if (response.IsSuccessStatusCode)
             {
