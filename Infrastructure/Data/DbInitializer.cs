@@ -19,7 +19,10 @@ public static class DbInitializer
             new Author { Name = "Elias Stone" },
             new Author { Name = "Nora Vale" },
             new Author { Name = "Julian Cross" },
-            new Author { Name = "Iris Night" }
+            new Author { Name = "Iris Night" },
+            new Author { Name = "Theo Ravensong" },
+            new Author { Name = "Selene Ashcroft" },
+            new Author { Name = "Cassian Vale" }
         };
 
         var genres = new[]
@@ -28,7 +31,10 @@ public static class DbInitializer
             new Genre { Name = "Mystery" },
             new Genre { Name = "Science Fiction" },
             new Genre { Name = "Romance" },
-            new Genre { Name = "Horror" }
+            new Genre { Name = "Horror" },
+            new Genre { Name = "Adventure" },
+            new Genre { Name = "Historical" },
+            new Genre { Name = "Thriller" }
         };
 
         var books = new[]
@@ -38,7 +44,7 @@ public static class DbInitializer
                 Title = "Inkbound Kingdom",
                 Description = "A royal archivist discovers a spell hidden in the margins of an ancient book.",
                 Price = 14.99m,
-                Cover = "https://placehold.co/400x600?text=Inkbound+Kingdom",
+                Cover = "https://placehold.co/400x600/1f2937/f8fafc?text=Inkbound%0AKingdom",
                 UrlFile = "demo/inkbound-kingdom.pdf"
             },
             new Book
@@ -46,7 +52,7 @@ public static class DbInitializer
                 Title = "The Last Lantern",
                 Description = "A detective follows a trail of impossible clues through a city that never sleeps.",
                 Price = 12.99m,
-                Cover = "https://placehold.co/400x600?text=The+Last+Lantern",
+                Cover = "https://placehold.co/400x600/f59e0b/111827?text=The+Last%0ALantern",
                 UrlFile = "demo/the-last-lantern.pdf"
             },
             new Book
@@ -54,7 +60,7 @@ public static class DbInitializer
                 Title = "Stars Below Zero",
                 Description = "Explorers cross a frozen moon to find a signal older than humanity.",
                 Price = 16.99m,
-                Cover = "https://placehold.co/400x600?text=Stars+Below+Zero",
+                Cover = "https://placehold.co/400x600/0ea5e9/e0f2fe?text=Stars+Below%0AZero",
                 UrlFile = "demo/stars-below-zero.pdf"
             },
             new Book
@@ -62,7 +68,7 @@ public static class DbInitializer
                 Title = "Letters in the Rain",
                 Description = "Two strangers rebuild their lives through letters left in a quiet bookshop.",
                 Price = 9.99m,
-                Cover = "https://placehold.co/400x600?text=Letters+in+the+Rain",
+                Cover = "https://placehold.co/400x600/7c3aed/f5f3ff?text=Letters+in%0Athe+Rain",
                 UrlFile = "demo/letters-in-the-rain.pdf"
             },
             new Book
@@ -70,22 +76,72 @@ public static class DbInitializer
                 Title = "House of Hollow Pages",
                 Description = "A family returns to a haunted estate where every room tells a different story.",
                 Price = 13.99m,
-                Cover = "https://placehold.co/400x600?text=House+of+Hollow+Pages",
+                Cover = "https://placehold.co/400x600/111827/f97316?text=House+of%0AHollow+Pages",
                 UrlFile = "demo/house-of-hollow-pages.pdf"
+            },
+            new Book
+            {
+                Title = "The Clockwork Orchard",
+                Description = "An apprentice botanist tends mechanical trees that bloom with memories of the future.",
+                Price = 15.49m,
+                Cover = "https://placehold.co/400x600/047857/d1fae5?text=Clockwork%0AOrchard",
+                UrlFile = "demo/the-clockwork-orchard.pdf"
+            },
+            new Book
+            {
+                Title = "Velvet Eclipse",
+                Description = "A masked pianist and an ambitious astronomer race to stop a citywide omen.",
+                Price = 11.99m,
+                Cover = "https://placehold.co/400x600/be123c/ffe4e6?text=Velvet%0AEclipse",
+                UrlFile = "demo/velvet-eclipse.pdf"
+            },
+            new Book
+            {
+                Title = "Map of the Drowned Sky",
+                Description = "Sky pirates chart vanished constellations to uncover a kingdom beneath the sea.",
+                Price = 17.99m,
+                Cover = "https://placehold.co/400x600/1d4ed8/dbeafe?text=Drowned%0ASky",
+                UrlFile = "demo/map-of-the-drowned-sky.pdf"
+            },
+            new Book
+            {
+                Title = "A Lullaby for Iron Wolves",
+                Description = "A frontier medic protects a caravan from enchanted machines that hunt by moonlight.",
+                Price = 18.49m,
+                Cover = "https://placehold.co/400x600/57534e/fef3c7?text=Iron%0AWolves",
+                UrlFile = "demo/a-lullaby-for-iron-wolves.pdf"
+            },
+            new Book
+            {
+                Title = "The Sapphire Conspiracy",
+                Description = "A museum curator uncovers a royal forgery that could topple three empires.",
+                Price = 13.49m,
+                Cover = "https://placehold.co/400x600/2563eb/ecfeff?text=Sapphire%0AConspiracy",
+                UrlFile = "demo/the-sapphire-conspiracy.pdf"
             }
         };
 
-        books[0].BookAuthors.Add(new BookAuthor { Book = books[0], Author = authors[0] });
-        books[1].BookAuthors.Add(new BookAuthor { Book = books[1], Author = authors[1] });
-        books[2].BookAuthors.Add(new BookAuthor { Book = books[2], Author = authors[2] });
-        books[3].BookAuthors.Add(new BookAuthor { Book = books[3], Author = authors[3] });
-        books[4].BookAuthors.Add(new BookAuthor { Book = books[4], Author = authors[4] });
+        AddAuthors(books[0], authors[0]);
+        AddAuthors(books[1], authors[1]);
+        AddAuthors(books[2], authors[2]);
+        AddAuthors(books[3], authors[3]);
+        AddAuthors(books[4], authors[4]);
+        AddAuthors(books[5], authors[5], authors[6]);
+        AddAuthors(books[6], authors[6]);
+        AddAuthors(books[7], authors[7], authors[0]);
+        AddAuthors(books[8], authors[5]);
+        AddAuthors(books[9], authors[1], authors[7]);
 
-        books[0].BookGenres.Add(new BookGenre { Book = books[0], Genre = genres[0] });
-        books[1].BookGenres.Add(new BookGenre { Book = books[1], Genre = genres[1] });
-        books[2].BookGenres.Add(new BookGenre { Book = books[2], Genre = genres[2] });
-        books[3].BookGenres.Add(new BookGenre { Book = books[3], Genre = genres[3] });
-        books[4].BookGenres.Add(new BookGenre { Book = books[4], Genre = genres[4] });
+        AddGenres(books[0], genres[0], genres[5]);
+        AddGenres(books[1], genres[1], genres[7]);
+        AddGenres(books[2], genres[2], genres[5]);
+        AddGenres(books[3], genres[3]);
+        AddGenres(books[4], genres[4], genres[1]);
+        AddGenres(books[5], genres[0], genres[2]);
+        AddGenres(books[6], genres[3], genres[7]);
+        AddGenres(books[7], genres[5], genres[0]);
+        AddGenres(books[8], genres[2], genres[4], genres[5]);
+        AddGenres(books[9], genres[6], genres[1], genres[7]);
 
         var demoUser = new User
         {
@@ -96,39 +152,55 @@ public static class DbInitializer
             Role = "user"
         };
 
-        var order = new Order
+        var adminUser = new User
         {
-            User = demoUser,
-            Book = books[0],
-            Total = books[0].Price,
-            Status = "Paid"
+            Username = "admin",
+            Email = "admin@obsidianink.com",
+            Password = "Admin123!",
+            Phone = "8090000001",
+            Role = "admin"
+        };
+
+        var orders = new[]
+        {
+            new Order { User = demoUser, Book = books[0], Total = books[0].Price, Status = "Paid" },
+            new Order { User = demoUser, Book = books[5], Total = books[5].Price, Status = "Paid" },
+            new Order { User = demoUser, Book = books[9], Total = books[9].Price, Status = "Paid" }
         };
 
         var reviews = new[]
         {
-            new Review
-            {
-                User = demoUser,
-                Book = books[0],
-                Rating = 5,
-                Comment = "A polished demo title with great pacing and a memorable fantasy hook."
-            },
-            new Review
-            {
-                User = demoUser,
-                Book = books[1],
-                Rating = 4,
-                Comment = "An engaging mystery sample that works well for a local presentation."
-            }
+            new Review { User = demoUser, Book = books[0], Rating = 5, Comment = "A polished demo title with great pacing and a memorable fantasy hook." },
+            new Review { User = demoUser, Book = books[1], Rating = 4, Comment = "An engaging mystery sample that works well for a local presentation." },
+            new Review { User = demoUser, Book = books[5], Rating = 5, Comment = "The inventive orchard setting makes every chapter feel surprising and vivid." },
+            new Review { User = adminUser, Book = books[7], Rating = 5, Comment = "Perfect showcase for adventure browsing, with bold worldbuilding and strong imagery." },
+            new Review { User = adminUser, Book = books[8], Rating = 4, Comment = "A moody science fiction tale with enough danger to keep readers clicking." },
+            new Review { User = demoUser, Book = books[9], Rating = 5, Comment = "Elegant historical intrigue that highlights genres, authors, reviews, and orders nicely." }
         };
 
         context.Authors.AddRange(authors);
         context.Genres.AddRange(genres);
         context.Books.AddRange(books);
-        context.Users.Add(demoUser);
-        context.Orders.Add(order);
+        context.Users.AddRange(demoUser, adminUser);
+        context.Orders.AddRange(orders);
         context.Reviews.AddRange(reviews);
 
         context.SaveChanges();
+    }
+
+    private static void AddAuthors(Book book, params Author[] authors)
+    {
+        foreach (var author in authors)
+        {
+            book.BookAuthors.Add(new BookAuthor { Book = book, Author = author });
+        }
+    }
+
+    private static void AddGenres(Book book, params Genre[] genres)
+    {
+        foreach (var genre in genres)
+        {
+            book.BookGenres.Add(new BookGenre { Book = book, Genre = genre });
+        }
     }
 }
