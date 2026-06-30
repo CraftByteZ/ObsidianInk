@@ -32,13 +32,24 @@ namespace Web.Pages
 
             var client = _httpClientFactory.CreateClient("api");
 
+            var bookResponse = await client.GetAsync($"api/Book/{bookId}");
+            var book = bookResponse.IsSuccessStatusCode
+                ? await bookResponse.Content.ReadFromJsonAsync<BookDto>()
+                : null;
+
+            if (book is null)
+            {
+                TempData["Error"] = "No se encontró el libro seleccionado.";
+                return RedirectToPage();
+            }
+
             var order = new OrderDto
             {
                 BookId = bookId,
                 UserId = userId,
                 DateTime = DateTime.UtcNow,
                 Status = "Paid",
-                Total = Books.FirstOrDefault(b => b.Id == bookId)?.Price ?? 0
+                Total = book.Price
             };
 
             var response = await client.PostAsJsonAsync("api/Order", order);

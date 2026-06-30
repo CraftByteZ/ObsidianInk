@@ -9,16 +9,21 @@ builder.Services.AddRazorPages();
 builder.Services.AddHttpClient("api", client =>
 {
     // Web API project base URL
-    client.BaseAddress = new Uri("https://localhost:7144/");
+    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:7144/");
 });
 
 // Enable Cookie Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Index"; // redirect when not logged in
+        options.LoginPath = "/Login";
         options.AccessDeniedPath = "/Login";
+        options.LogoutPath = "/Logout";
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromHours(1);
     });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
