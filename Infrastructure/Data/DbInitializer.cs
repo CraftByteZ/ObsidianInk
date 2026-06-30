@@ -1,10 +1,11 @@
-﻿using ObsidianInk.Models;
+using Microsoft.AspNetCore.Identity;
+using ObsidianInk.Models;
 
 namespace ObsidianInk.Data;
 
 public static class DbInitializer
 {
-    public static void Seed(ObsidianInkContext context)
+    public static void Seed(ObsidianInkContext context, IPasswordHasher<User> passwordHasher)
     {
         context.Database.EnsureCreated();
 
@@ -91,10 +92,10 @@ public static class DbInitializer
         {
             Username = "demo",
             Email = "demo@obsidianink.com",
-            Password = "Demo123!",
             Phone = "8090000000",
             Role = "user"
         };
+        demoUser.Password = passwordHasher.HashPassword(demoUser, "Demo123!");
 
         var order = new Order
         {

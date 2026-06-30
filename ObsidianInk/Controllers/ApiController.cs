@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -14,10 +15,12 @@ namespace ObsidianInk.Controllers
     public class ApiController : ControllerBase
     {
         private readonly ObsidianInkContext _context;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public ApiController(ObsidianInkContext context)
+        public ApiController(ObsidianInkContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpPost("register")]
@@ -30,9 +33,9 @@ namespace ObsidianInk.Controllers
             {
                 Username = dto.Username,
                 Email = dto.Email,
-                Password = dto.Password, // ⚠️ Hashear en producción
                 Phone = dto.Phone
             };
+            user.Password = _passwordHasher.HashPassword(user, dto.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -44,9 +47,13 @@ namespace ObsidianInk.Controllers
         public async Task<IActionResult> Login(LoginDto dto)
         {
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
+                .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             if (user == null)
+                return Unauthorized("Invalid credentials");
+
+            var passwordResult = _passwordHasher.VerifyHashedPassword(user, user.Password, dto.Password);
+            if (passwordResult == PasswordVerificationResult.Failed)
                 return Unauthorized("Invalid credentials");
 
             // Crear claims (datos del usuario)

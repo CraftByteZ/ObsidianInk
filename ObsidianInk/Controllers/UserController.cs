@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ObsidianInk.Dtos;
@@ -13,7 +13,13 @@ namespace ObsidianInk.Controllers
     public class UserController : ControllerBase
     {
         private readonly ObsidianInkContext _context;
-        public UserController(ObsidianInkContext context) => _context = context;
+        private readonly IPasswordHasher<User> _passwordHasher;
+
+        public UserController(ObsidianInkContext context, IPasswordHasher<User> passwordHasher)
+        {
+            _context = context;
+            _passwordHasher = passwordHasher;
+        }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserDto dto)
@@ -25,16 +31,16 @@ namespace ObsidianInk.Controllers
             }
             catch (Exception)
             {
-                return Ok("Demo registration accepted. Use demo@obsidianink.local / password123 to sign in.");
+                return Ok("Demo registration accepted. Use demo@obsidianink.com / Demo123! to sign in.");
             }
 
             var user = new User
             {
                 Username = dto.Username,
                 Email = dto.Email,
-                Password = dto.Password, // ⚠️ En producción, usa hashing
                 Phone = dto.Phone
             };
+            user.Password = _passwordHasher.HashPassword(user, dto.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -47,25 +53,33 @@ namespace ObsidianInk.Controllers
             try
             {
                 var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
+                    .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
                 if (user != null)
-                    return Ok(user);
+                {
+                    var result = _passwordHasher.VerifyHashedPassword(user, user.Password, dto.Password);
+                    if (result != PasswordVerificationResult.Failed)
+                    {
+                        return Ok(user);
+                    }
+                }
 
-                var demoUser = DemoData.DemoUser;
-                var isDemoLogin = string.Equals(dto.Email, demoUser.Email, StringComparison.OrdinalIgnoreCase)
-                    && dto.Password == demoUser.Password;
-
-                return isDemoLogin ? Ok(demoUser) : Unauthorized("Invalid credentials.");
+                return IsDemoLogin(dto) ? Ok(DemoData.DemoUser) : Unauthorized("Invalid credentials.");
             }
             catch (Exception)
             {
-                var demoUser = DemoData.DemoUser;
-                var isDemoLogin = string.Equals(dto.Email, demoUser.Email, StringComparison.OrdinalIgnoreCase)
-                    && dto.Password == demoUser.Password;
-
-                return isDemoLogin ? Ok(demoUser) : Unauthorized("Invalid credentials.");
+                return IsDemoLogin(dto) ? Ok(DemoData.DemoUser) : Unauthorized("Invalid credentials.");
             }
+        }
+
+        private bool IsDemoLogin(LoginDto dto)
+        {
+            var demoUser = DemoData.DemoUser;
+            var demoHash = _passwordHasher.HashPassword(demoUser, "Demo123!");
+            var result = _passwordHasher.VerifyHashedPassword(demoUser, demoHash, dto.Password);
+
+            return string.Equals(dto.Email, demoUser.Email, StringComparison.OrdinalIgnoreCase)
+                && result != PasswordVerificationResult.Failed;
         }
 
         [HttpGet("{id}")]

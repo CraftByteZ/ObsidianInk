@@ -1,4 +1,4 @@
-﻿using ObsidianInk.Dtos;
+using ObsidianInk.Dtos;
 using ObsidianInk.Models;
 
 namespace ObsidianInk.Services;
@@ -9,9 +9,9 @@ public static class DemoData
     {
         Id = 1,
         Username = "demo",
-        Email = "demo@obsidianink.local",
-        Password = "password123",
-        Phone = "555-0100",
+        Email = "demo@obsidianink.com",
+        Password = string.Empty,
+        Phone = "8090000000",
         Role = "user"
     };
 
