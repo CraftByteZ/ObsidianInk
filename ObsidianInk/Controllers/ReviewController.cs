@@ -16,6 +16,37 @@ namespace ObsidianInk.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ReviewDto dto)
         {
+            var userExists = await _context.Users.AnyAsync(u => u.Id == dto.UserId);
+            if (!userExists)
+            {
+                return BadRequest($"User with ID {dto.UserId} does not exist.");
+            }
+
+            var bookExists = await _context.Books.AnyAsync(b => b.Id == dto.BookId);
+            if (!bookExists)
+            {
+                return BadRequest($"Book with ID {dto.BookId} does not exist.");
+            }
+
+            var hasPaidOrder = await _context.Orders.AnyAsync(o =>
+                o.UserId == dto.UserId &&
+                o.BookId == dto.BookId &&
+                o.Status == "Paid");
+
+            if (!hasPaidOrder)
+            {
+                return BadRequest("The user must have a paid order for this book before leaving a review.");
+            }
+
+            var alreadyReviewed = await _context.Reviews.AnyAsync(r =>
+                r.UserId == dto.UserId &&
+                r.BookId == dto.BookId);
+
+            if (alreadyReviewed)
+            {
+                return BadRequest("The user has already reviewed this book.");
+            }
+
             var review = new Review
             {
                 Comment = dto.Comment,
@@ -60,7 +91,8 @@ namespace ObsidianInk.Controllers
                     Comment = r.Comment,
                     Rating = r.Rating,
                     UserId = r.UserId,
-                    BookId = r.BookId
+                    BookId = r.BookId,
+                    ReviewerUsername = r.User.Username
                 }).ToListAsync();
             return Ok(reviews);
         }
