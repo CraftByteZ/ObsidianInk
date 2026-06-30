@@ -43,10 +43,17 @@ namespace ObsidianInk.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
+            try
+            {
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
 
-                return Unauthorized("Invalid credentials.");
+                if (user == null)
+                {
+                    return Unauthorized("Invalid credentials.");
+                }
+
+                return Ok(ToAuthResponseDto(user));
             }
             catch (Exception ex)
             {
