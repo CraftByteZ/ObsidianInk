@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ObsidianInk.Dtos;
 using ObsidianInk.Models;
 using ObsidianInk.Data;
-using ObsidianInk.Services;
 
 namespace ObsidianInk.Controllers
 {
@@ -22,23 +20,24 @@ namespace ObsidianInk.Controllers
             {
                 var exists = await _context.Users.AnyAsync(u => u.Email == dto.Email);
                 if (exists) return BadRequest("Email already registered.");
+
+                var user = new User
+                {
+                    Username = dto.Username,
+                    Email = dto.Email,
+                    Password = dto.Password, // ⚠️ En producción, usa hashing
+                    Phone = dto.Phone
+                };
+
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                return Ok("User registered.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Ok("Demo registration accepted. Use demo@obsidianink.local / password123 to sign in.");
+                return Problem($"Unable to register user because the database operation failed: {ex.Message}");
             }
 
-            var user = new User
-            {
-                Username = dto.Username,
-                Email = dto.Email,
-                Password = dto.Password, // ⚠️ En producción, usa hashing
-                Phone = dto.Phone
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return Ok("User registered.");
         }
 
         [HttpPost("login")]
@@ -52,34 +51,33 @@ namespace ObsidianInk.Controllers
                 if (user != null)
                     return Ok(user);
 
-                var demoUser = DemoData.DemoUser;
-                var isDemoLogin = string.Equals(dto.Email, demoUser.Email, StringComparison.OrdinalIgnoreCase)
-                    && dto.Password == demoUser.Password;
-
-                return isDemoLogin ? Ok(demoUser) : Unauthorized("Invalid credentials.");
+                return Unauthorized("Invalid credentials.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var demoUser = DemoData.DemoUser;
-                var isDemoLogin = string.Equals(dto.Email, demoUser.Email, StringComparison.OrdinalIgnoreCase)
-                    && dto.Password == demoUser.Password;
-
-                return isDemoLogin ? Ok(demoUser) : Unauthorized("Invalid credentials.");
+                return Problem($"Unable to authenticate user because the database operation failed: {ex.Message}");
             }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null) return NotFound();
-
-            return new UserDto
+            try
             {
-                Username = user.Username,
-                Email = user.Email,
-                Phone = user.Phone
-            };
+                var user = await _context.Users.FindAsync(id);
+                if (user == null) return NotFound();
+
+                return new UserDto
+                {
+                    Username = user.Username,
+                    Email = user.Email,
+                    Phone = user.Phone
+                };
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Unable to retrieve user {id} from the database: {ex.Message}");
+            }
         }
     }
 
