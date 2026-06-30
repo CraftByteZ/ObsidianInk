@@ -8,7 +8,7 @@
     <div>
         <span class="badge rounded-pill text-bg-primary mb-2">Biblioteca personal</span>
         <h1 class="display-6 fw-bold text-primary mb-1">Mi Biblioteca</h1>
-        <p class="text-muted mb-0">Tus compras listas para leer.</p>
+        <p class="text-muted mb-0">Tus compras guardadas en un solo lugar.</p>
     </div>
 </div>
 
@@ -33,7 +33,7 @@ else
                         <p class="book-meta mb-3">@string.Join(", ", book.AuthorNames)</p>
                         <p class="card-text line-clamp-3 mb-4">@book.Description</p>
                         <div class="mt-auto d-grid">
-                            <a href="@book.UrlFile" target="_blank" class="btn btn-primary">Leer libro</a>
+                            <a asp-page="/BookDetails" asp-route-id="@book.Id" class="btn btn-primary">Ver detalles</a>
                         </div>
                     </div>
                 </article>
