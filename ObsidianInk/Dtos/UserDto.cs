@@ -15,5 +15,6 @@ namespace ObsidianInk.Dtos
 
         [Phone, StringLength(15)]
         public string Phone { get; set; } = string.Empty;
+        public object UserId { get; set; }
     }
 }

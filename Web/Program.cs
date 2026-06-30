@@ -22,9 +22,15 @@ builder.Services.AddHttpClient("api", client =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Index"; // redirect when not logged in
-        options.AccessDeniedPath = "/Login";
+        options.LoginPath = "/login"; // ruta a redirigir si no está logueado
+        options.LogoutPath = "/logout";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.ExpireTimeSpan = TimeSpan.FromHours(1);
     });
+
+builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
 

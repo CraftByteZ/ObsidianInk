@@ -40,40 +40,25 @@ namespace ObsidianInk.Controllers
             return Ok("Registered successfully");
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDto dto)
-        {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
-
-            if (user == null)
-                return Unauthorized("Invalid credentials");
-
-            // Crear claims (datos del usuario)
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("UserId", user.Id.ToString())
-            };
-
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = true, // 🔁 mantiene sesión activa
-                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1)
-            };
-
             // Iniciar sesión (crear cookie)
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
+            [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto dto)
+            {
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
 
-            return Ok(new { message = "Login successful", username = user.Username });
-        }
+                if (user == null)
+                    return Unauthorized(new { message = "Credenciales inválidas" });
+
+                // Solo devuelve los datos del usuario (sin cookies)
+                return Ok(new
+                {
+                    message = "Login exitoso",
+                    username = user.Username,
+                    userId = user.Id,
+                    email = user.Email
+                });
+            }
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
