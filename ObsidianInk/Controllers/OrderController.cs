@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ObsidianInk.Data;
 using ObsidianInk.Dtos;
 using ObsidianInk.Models;
-using ObsidianInk.Services;
 
 namespace ObsidianInk.Controllers
 {
@@ -20,26 +19,41 @@ namespace ObsidianInk.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(OrderDto dto)
         {
+            var userExists = await _context.Users.AnyAsync(u => u.Id == dto.UserId);
+            if (!userExists)
+            {
+                return BadRequest(new { message = "User does not exist." });
+            }
+
+            var book = await _context.Books.FindAsync(dto.BookId);
+            if (book == null)
+            {
+                return BadRequest(new { message = "Book does not exist." });
+            }
+
+            var alreadyPurchased = await _context.Orders.AnyAsync(o =>
+                o.UserId == dto.UserId &&
+                o.BookId == dto.BookId &&
+                o.Status == "Paid");
+
+            if (alreadyPurchased)
+            {
+                return BadRequest(new { message = "User has already purchased this book." });
+            }
+
             var order = new Order
             {
-                DateTime = dto.DateTime,
-                Total = dto.Total,
-                Status = dto.Status,
+                DateTime = DateTime.UtcNow,
+                Total = book.Price,
+                Status = "Paid",
                 UserId = dto.UserId,
                 BookId = dto.BookId
             };
 
-            try
-            {
-                _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                // Keep the local demo flow moving when PostgreSQL is not available.
-            }
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new { id = order.Id, message = "Order created successfully." });
         }
 
         [HttpGet("user/{userId}")]
