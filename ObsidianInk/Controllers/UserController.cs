@@ -50,13 +50,13 @@ namespace ObsidianInk.Controllers
                     .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
 
                 if (user != null)
-                    return Ok(user);
+                    return Ok(ToAuthResponseDto(user));
 
                 var demoUser = DemoData.DemoUser;
                 var isDemoLogin = string.Equals(dto.Email, demoUser.Email, StringComparison.OrdinalIgnoreCase)
                     && dto.Password == demoUser.Password;
 
-                return isDemoLogin ? Ok(demoUser) : Unauthorized("Invalid credentials.");
+                return isDemoLogin ? Ok(ToAuthResponseDto(demoUser)) : Unauthorized("Invalid credentials.");
             }
             catch (Exception)
             {
@@ -64,9 +64,17 @@ namespace ObsidianInk.Controllers
                 var isDemoLogin = string.Equals(dto.Email, demoUser.Email, StringComparison.OrdinalIgnoreCase)
                     && dto.Password == demoUser.Password;
 
-                return isDemoLogin ? Ok(demoUser) : Unauthorized("Invalid credentials.");
+                return isDemoLogin ? Ok(ToAuthResponseDto(demoUser)) : Unauthorized("Invalid credentials.");
             }
         }
+
+        private static AuthResponseDto ToAuthResponseDto(User user) => new()
+        {
+            UserId = user.Id,
+            Username = user.Username,
+            Email = user.Email,
+            Role = user.Role ?? "user"
+        };
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
