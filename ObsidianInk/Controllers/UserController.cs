@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using ObsidianInk.Dtos;
 using ObsidianInk.Models;
 using ObsidianInk.Data;
-using ObsidianInk.Services;
 
 namespace ObsidianInk.Controllers
 {
@@ -44,28 +43,12 @@ namespace ObsidianInk.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            try
-            {
-                var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
 
-                if (user != null)
-                    return Ok(ToAuthResponseDto(user));
-
-                var demoUser = DemoData.DemoUser;
-                var isDemoLogin = string.Equals(dto.Email, demoUser.Email, StringComparison.OrdinalIgnoreCase)
-                    && dto.Password == demoUser.Password;
-
-                return isDemoLogin ? Ok(ToAuthResponseDto(demoUser)) : Unauthorized("Invalid credentials.");
-            }
-            catch (Exception)
-            {
-                var demoUser = DemoData.DemoUser;
-                var isDemoLogin = string.Equals(dto.Email, demoUser.Email, StringComparison.OrdinalIgnoreCase)
-                    && dto.Password == demoUser.Password;
-
-                return isDemoLogin ? Ok(ToAuthResponseDto(demoUser)) : Unauthorized("Invalid credentials.");
-            }
+            return user == null
+                ? Unauthorized("Invalid credentials.")
+                : Ok(ToAuthResponseDto(user));
         }
 
         private static AuthResponseDto ToAuthResponseDto(User user) => new()
