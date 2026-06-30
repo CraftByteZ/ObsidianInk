@@ -170,12 +170,12 @@ public static class DbInitializer
 
         var reviews = new[]
         {
-            new Review { User = demoUser, Book = books[0], Rating = 5, Comment = "A polished demo title with great pacing and a memorable fantasy hook." },
-            new Review { User = demoUser, Book = books[1], Rating = 4, Comment = "An engaging mystery sample that works well for a local presentation." },
-            new Review { User = demoUser, Book = books[5], Rating = 5, Comment = "The inventive orchard setting makes every chapter feel surprising and vivid." },
-            new Review { User = adminUser, Book = books[7], Rating = 5, Comment = "Perfect showcase for adventure browsing, with bold worldbuilding and strong imagery." },
-            new Review { User = adminUser, Book = books[8], Rating = 4, Comment = "A moody science fiction tale with enough danger to keep readers clicking." },
-            new Review { User = demoUser, Book = books[9], Rating = 5, Comment = "Elegant historical intrigue that highlights genres, authors, reviews, and orders nicely." }
+            new Review { User = demoUser, Book = books[0], Rating = 5, Comment = "The world feels rich from the first chapter, and the archivist's journey is easy to follow." },
+            new Review { User = demoUser, Book = books[1], Rating = 4, Comment = "A quiet mystery with a strong atmosphere and a detective story that moves at a steady pace." },
+            new Review { User = demoUser, Book = books[5], Rating = 5, Comment = "The mechanical orchard is a memorable setting, and the story has a warm sense of wonder." },
+            new Review { User = adminUser, Book = books[7], Rating = 5, Comment = "A fast adventure with clear stakes, vivid locations, and a strong sense of discovery." },
+            new Review { User = adminUser, Book = books[8], Rating = 4, Comment = "Moody and tense, with a good balance between science fiction elements and survival drama." },
+            new Review { User = demoUser, Book = books[9], Rating = 5, Comment = "The historical intrigue works well, and the plot keeps building without becoming confusing." }
         };
 
         context.Authors.AddRange(authors);
